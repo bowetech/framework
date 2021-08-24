@@ -1,0 +1,29 @@
+{
+    "name": "bowetech/framework",
+    "description": "The BoweTech Framework.",
+    "keywords": [
+        "framework",
+        "BoweTech"
+    ],
+    "license": "MIT",
+    "homepage": "https://framework.bowetech.com",
+    "authors": [
+        {
+            "name": "Clive Stewart",
+            "email": "support@bowetech.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Intelligent\\": "src/Intelligent/",
+            "Intelligent\\Kernel\\": "src/Intelligent/Kernel/",
+            "Intelligent\\Support\\": "src/Intelligent/Support/"
+        },
+        "files": [
+            "src/Intelligent/Support/helpers.php"
+        ]
+    }
+}
