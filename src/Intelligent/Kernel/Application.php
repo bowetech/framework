@@ -2,20 +2,144 @@
 
 namespace Intelligent\Kernel;
 
-use Intelligent\Kernel\Request;
+use Intelligent\Contracts\Provider\ServiceProvider as ServiceContract;
+use Intelligent\Support\Providers\RouterServiceProvider;
 
-class Application
+class Application extends Container
 {
-	public Router $router;
+	/**
+	 * The Static framework version.
+	 *
+	 * @var String
+	 */
+	const VERSION = '2.0.0';
 
-	public function __construct()
+	const DIRECTORY_SEPARATOR = "/";
+
+	/**
+	 * The base path for the Static installation.
+	 *
+	 * @var string
+	 */
+	protected $basePath;
+
+	/**
+	 * The base path for the Static installation.
+	 *
+	 * @var string
+	 */
+	protected  $loadedProviders = [];
+
+	/**
+	 * The base path for the Static installation.
+	 *
+	 * @var string
+	 */
+	public function __construct($basePath = null)
 	{
-		$this->request = new Request();
-		$this->router = new Router($this->request);
+		if ($basePath) {
+			$this->setBasePath($basePath);
+		}
+		$this->registerBaseBindings();
+		$this->registerBaseServiceProviders();
+		$this->registerCoreContainerAliases();
 	}
 
+	/**
+	 * Register services and start main the application services.
+	 * @return void
+	 */
 	public function run()
 	{
-		$this->router->resolve();
+		//echo "<pre>";
+		//print_r($this);
+	}
+	/**
+	 * Get the version number of the application.
+	 *
+	 * @return String
+	 */
+	public function version()
+	{
+		return static::VERSION;
+	}
+
+	/**
+	 * The base path for the Static installation.
+	 *
+	 * @var string
+	 */
+	public function setBasePath($basePath)
+	{
+		$this->basePath = rtrim($basePath, '\/');
+
+		return $this;
+	}
+
+	/**
+	 * Register the basic bindings into the container.
+	 *
+	 * @return void
+	 */
+	public function registerBaseBindings()
+	{
+		static::setInstance($this);
+		$this->instance('app', $this);
+		$this->instance('router', Router::class);
+		$this->instance(Container::class, $this);
+	}
+
+	/**
+	 * Register all of the base service providers.
+	 *
+	 * @return void
+	 */
+	public function registerBaseServiceProviders()
+	{
+		$this->register(new RouterServiceProvider($this));
+	}
+
+	/**
+	 * Register the core class aliases in the container.
+	 *
+	 * @return void
+	 */
+	public function registerCoreContainerAliases()
+	{
+		foreach ([
+			'app'                  => [self::class, \Kernel\Container::class],
+			'router'               => [\Kernel\Router::class],
+
+		] as $key => $aliases) {
+			foreach ($aliases as $alias) {
+				$this->alias($key, $alias);
+			}
+		}
+	}
+
+	/**
+	 * Register Providers of the base service providers.
+	 *
+	 * @return void
+	 */
+	public function register(ServiceContract $provider)
+	{
+		if (!$this->providerHasBeenLoaded($provider)) {
+			$provider->register($this);
+
+			$this->loadedProviders[] = get_class($provider);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Check if Providers service has been loaded.
+	 *
+	 * @return  boolean 
+	 */
+	protected function providerHasBeenLoaded(ServiceContract $provider)
+	{
+		return array_key_exists(get_class($provider), $this->loadedProviders);
 	}
 }
