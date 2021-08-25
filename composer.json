@@ -2,8 +2,9 @@
     "name": "bowetech/framework",
     "description": "The BoweTech Framework.",
     "keywords": [
-        "framework",
-        "BoweTech"
+        "Framework",
+        "BoweTech",
+        "PHP Framework"
     ],
     "license": "MIT",
     "homepage": "https://framework.bowetech.com",
