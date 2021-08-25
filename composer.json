@@ -27,7 +27,7 @@
             "Intelligent\\Support\\": "src/Intelligent/Support/"
         },
         "files": [
-            "src/Intelligent/Support/helpers.php",
+            "src/Intelligent/Support/helpers.php"
         ]
     }
 }
