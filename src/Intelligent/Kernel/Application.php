@@ -37,6 +37,7 @@ class Application extends Container
 	 */
 	public function __construct($basePath = null)
 	{
+
 		if ($basePath) {
 			$this->setBasePath($basePath);
 		}
