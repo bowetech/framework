@@ -76,4 +76,19 @@ if (!function_exists('convertToCamelCase')) {
 			return app()->basePath() . '/config' . ($path ? '/' . $path : $path);
 		}
 	}
+
+
+
+	if (!function_exists('resource_path')) {
+		/**
+		 * Get the configuration path.
+		 *
+		 * @param  string $path
+		 * @return string
+		 */
+		function resource_path($path = '')
+		{
+			return app()->basePath() . '/resources' . ($path ? '/' . $path : $path);
+		}
+	}
 }
