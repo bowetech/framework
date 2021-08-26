@@ -17,27 +17,23 @@ class Env
 	{
 		$value = isset($_ENV[$key]) ? $_ENV[$key] : $default;
 
-		if ($value === false) {
-			return $default;
-		}
-		switch (strtolower($value)) {
+		switch ($value) {
 			case null:
 			case '':
 				return $default;
-			case 'true':
-			case '(true)':
+			case strtolower('true'):
+			case strtolower('(true)'):
 				return true;
-			case 'false':
-			case '(false)':
+			case strtolower('false'):
+			case strtolower('(false)'):
 				return false;
-			case 'empty':
-			case '(empty)':
+			case strtolower('empty'):
+			case strtolower('(empty)'):
 				return '';
-			case 'null':
-			case '(null)':
+			case strtolower('null'):
+			case strtolower('(null)'):
 				return $default;
 		}
-
 
 		return $value;
 	}
