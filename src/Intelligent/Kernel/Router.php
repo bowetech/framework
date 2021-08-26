@@ -25,7 +25,12 @@ class Router
 
 	public function __construct()
 	{
-		require_once __DIR__ . '/../routes/web.php';
+		#TODO
+		// Allow router to cache routes etc
+		// Register routes the the IOC Container
+		//require_once  app()->resolve('routes') . '/routes/web.php';
+
+		require_once  app()->resolve('path.routes');
 	}
 
 	/**
@@ -49,7 +54,7 @@ class Router
 	 * property if a route is found
 	 * 
 	 * @param string $url  The route URL
-	 * @return boolen true if a match found , false otherwise	 * 
+	 * @return boolean true if a match found , false otherwise	 * 
 	 */
 	public function match($url)
 	{

@@ -12,7 +12,7 @@ class Application extends Container
 	 *
 	 * @var String
 	 */
-	const VERSION = '2.0.0';
+	const VERSION = '0.0.x';
 
 	const DIRECTORY_SEPARATOR = "/";
 
@@ -24,9 +24,16 @@ class Application extends Container
 	protected $basePath;
 
 	/**
-	 * The base path for the Static installation.
+	 * The custom application path defined by the developer.
 	 *
 	 * @var string
+	 */
+	protected $appPath;
+
+	/**
+	 * The names of the loaded service providers..
+	 *
+	 * @var array
 	 */
 	protected  $loadedProviders = [];
 
@@ -41,6 +48,7 @@ class Application extends Container
 		if ($basePath) {
 			$this->setBasePath($basePath);
 		}
+
 		$this->registerBaseBindings();
 		$this->registerBaseServiceProviders();
 		$this->registerCoreContainerAliases();
@@ -74,8 +82,92 @@ class Application extends Container
 	{
 		$this->basePath = rtrim($basePath, '\/');
 
+		$this->bindPathsInContainer();
+
 		return $this;
 	}
+
+	/**
+	 * Bind all of the application paths in the container.
+	 *
+	 * @return void
+	 */
+	protected function bindPathsInContainer()
+	{
+		$this->instance('path', $this->path());
+		$this->instance('path.base', $this->basePath());
+		$this->instance('path.config', $this->configPath());
+		$this->instance('path.resources', $this->resourcePath());
+		$this->instance('path.views', $this->resourcePath('views'));
+		$this->instance('path.routes', $this->routePath('web.php'));
+	}
+
+	/**
+	 * Get the path to the application "app" directory.
+	 *
+	 * @param  string  $path
+	 * @return string
+	 */
+	public function path(string $path = ''): string
+	{
+		$appPath = $this->appPath ?: $this->basePath . DIRECTORY_SEPARATOR . 'app';
+
+		return $appPath . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+	}
+
+	/**
+	 * Get the base path of the Framework installation.
+	 *
+	 * @param  string  $path Optionally, a path to append to the base path
+	 * @return string
+	 */
+	public function basePath(string $path = ''): string
+	{
+
+		return $this->basePath . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+	}
+
+	/**
+	 * Get the path to the application configuration files.
+	 *
+	 * @param  string  $path Optionally, a path to append to the config path
+	 * @return string
+	 */
+	public function configPath(string $path = ''): string
+	{
+
+		return $this->basePath . DIRECTORY_SEPARATOR . 'config' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+	}
+
+
+	/**
+	 * Get the path to the resources directory.
+	 *
+	 * @param  string  $path
+	 * @return string
+	 */
+	public function resourcePath(string $path = ''): string
+	{
+
+		return $this->basePath . DIRECTORY_SEPARATOR . 'resources' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+	}
+
+
+
+	/**
+	 * Get the path to the routes directory.
+	 *
+	 * @param  string  $path
+	 * @return string
+	 */
+	public function routePath(string $path = ''): string
+	{
+
+		return $this->basePath . DIRECTORY_SEPARATOR . 'routes' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+	}
+
+
+
 
 	/**
 	 * Register the basic bindings into the container.
@@ -86,8 +178,9 @@ class Application extends Container
 	{
 		static::setInstance($this);
 		$this->instance('app', $this);
-		$this->instance('router', Router::class);
 		$this->instance(Container::class, $this);
+
+		$this->instance('router', Router::class);
 	}
 
 	/**
@@ -108,8 +201,8 @@ class Application extends Container
 	public function registerCoreContainerAliases()
 	{
 		foreach ([
-			'app'                  => [self::class, \Kernel\Container::class],
-			'router'               => [\Kernel\Router::class],
+			'app'                  => [self::class, \Intelligent\Kernel\Container::class],
+			'router'               => [\Intelligent\Kernel\Router::class],
 
 		] as $key => $aliases) {
 			foreach ($aliases as $alias) {
@@ -142,5 +235,10 @@ class Application extends Container
 	protected function providerHasBeenLoaded(ServiceContract $provider)
 	{
 		return array_key_exists(get_class($provider), $this->loadedProviders);
+	}
+
+	public function getBasePath()
+	{
+		return $this->basePath;
 	}
 }

@@ -168,6 +168,15 @@ class Container implements ArrayAccess //, ContainerContract
 			$class = $class['concrete'];
 		}
 
+		// If the instance of the type is being managed as a singleton 
+		// just return the instance instead of a new instance.
+
+		if (array_key_exists($abstract, $this->instances)) {
+
+			return $this->instances[$abstract];
+		}
+
+
 		if ($this->isSingleton($abstract) && $this->singletonResolved($abstract)) {
 
 			return $this->getSingletonInstance($abstract);

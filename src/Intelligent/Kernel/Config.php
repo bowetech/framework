@@ -37,10 +37,10 @@ class Config
 	}
 
 	/**
-	 * Loads All application and enviromment configuration inforamtion
+	 * Loads All application and environment configuration information
 	 * in the form of key => value pairs. This function looks though
-	 * the '\cnfig' directory for config files and adds them to the
-	 * Global App array. Each file forms its own assosiative array.     *
+	 * the '\config' directory for config files and adds them to the
+	 * Global App array. Each file forms its own associative array.     *
 	 *
 	 * @param  void
 	 * @return array $config  Associative array
@@ -48,7 +48,8 @@ class Config
 	private static function getConfigs()
 	{
 		$finder = new Finder();
-		$finder->files()->in(dirname(__DIR__) . '/config');
+
+		$finder->files()->in(config_path());
 
 		if ($finder->hasResults()) {
 

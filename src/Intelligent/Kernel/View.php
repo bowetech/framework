@@ -12,7 +12,7 @@ class View
 		static $twig = null;
 
 		if ($twig === null) {
-			$loader = new \Twig_Loader_Filesystem('../app/resources/views');
+			$loader = new \Twig_Loader_Filesystem(app()->resolve('path.views'));
 			$twig = new \Twig_Environment($loader);
 		}
 
