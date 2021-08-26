@@ -12,7 +12,7 @@ class Application extends Container
 	 *
 	 * @var String
 	 */
-	const VERSION = '0.0.x';
+	const VERSION = '0.0.3';
 
 	const DIRECTORY_SEPARATOR = "/";
 
