@@ -2,10 +2,11 @@
 
 namespace Intelligent\Kernel;
 
+use Intelligent\Contracts\Kernel\Kernel as KernelContract;
 use Intelligent\Support\Facades\Route;
 
 
-class Kernel
+class Kernel implements KernelContract
 {
 	/**
 	 * Handle an incoming HTTP request.
