@@ -15,11 +15,10 @@
         }
     ],
     "require": {
-        "twig/twig": "^2.0",
-        "symfony/dotenv": "^4.3",
-        "symfony/finder": "^4.3",
+        "twig/twig": "^3.3",
+        "symfony/finder": "^5.3",
         "vlucas/phpdotenv": "^5.3",
-        "phpmailer/phpmailer": "^6.0"
+        "phpmailer/phpmailer": "^6.5"
     },
     "autoload": {
         "psr-4": {
@@ -30,5 +29,8 @@
         "files": [
             "src/Intelligent/Support/helpers.php"
         ]
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.3"
     }
 }

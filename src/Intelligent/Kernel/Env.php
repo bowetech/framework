@@ -15,7 +15,7 @@ class Env
 	 */
 	public static function get($key, $default = null)
 	{
-		$value = getenv($key);
+		$value = isset($_ENV[$key]) ? $_ENV[$key] : $default;
 
 		if ($value === false) {
 			return $default;
