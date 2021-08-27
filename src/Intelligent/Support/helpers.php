@@ -78,7 +78,6 @@ if (!function_exists('convertToCamelCase')) {
 	}
 
 
-
 	if (!function_exists('resource_path')) {
 		/**
 		 * Get the configuration path.
