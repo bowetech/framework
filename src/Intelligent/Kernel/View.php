@@ -15,7 +15,7 @@ class View
 
 			$loader = new \Twig\Loader\FilesystemLoader(resource_path('views'));
 			$twig = new \Twig\Environment($loader, [
-				'cache' =>  base_path('cache'),
+				'cache' => base_path('cache'),
 			]);
 		}
 
