@@ -8,7 +8,6 @@
 </a></p>
 
 
-
 # BoweTech PHP Framework 
 A lightweight PHP MVC Framework
 
